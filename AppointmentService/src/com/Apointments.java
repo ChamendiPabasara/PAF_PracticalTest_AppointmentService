@@ -161,4 +161,82 @@ public String addAppointment(Date day, String time, int pid,int did,int hosID) {
 		
 	}
 
+public String UpdateAppointment(Date day,String time,int AppID) {
+	String output = "";
+	
+	try{
+		
+		Connection con  = connect();
+		if (con == null) {
+			
+			return "Error while connecting to the database for inserting.";
+		}
+		
+		//get doctor id and hospital id for given appointment id
+		String getdocIDQuery = "SELECT doctor_doc_id,hospital_hosp_id  FROM appoinment WHERE appoinment_id = ?";
+		
+		
+		PreparedStatement preparedstatement = con.prepareStatement(getdocIDQuery);
+	
+		preparedstatement.setInt(1,AppID);
+		
+	
+		ResultSet newresultset = preparedstatement.executeQuery();
+		
+		
+		newresultset.next();
+		
+		//Assign into variable 
+		int docid = newresultset.getInt("doctor_doc_id");
+		int hosID = newresultset.getInt("hospital_hosp_id");
+		
+		//get Count of given info
+		String checkQuery="select count(appoinment_id)  from appoinment where date = ? and time = ? and doctor_doc_id = ? and hospital_hosp_id = ?";
+		PreparedStatement prstmnt = con.prepareStatement(checkQuery);
+		
+		prstmnt.setDate(1,day);
+		prstmnt.setString(2,time);
+		prstmnt.setInt(3,docid);
+		prstmnt.setInt(4,hosID);
+		
+		ResultSet newresultset2 = prstmnt.executeQuery();
+		
+		newresultset2.next();
+		
+		//convert count into integer
+		int value = Integer.parseInt(newresultset2.getObject(1).toString());
+		
+		
+		if(value !=0)
+		{
+			output = "{\"status\":\"error\", \"data\":" + "\"The particular time slot has been reserved please choose another a time slot.\"}";
+			return "The particular time slot has been reserved please choose another a time slot.";
+			
+		}
+		
+		else {
+		
+		
+		String updateAppQuery =  "UPDATE appoinment SET date=?,time=? WHERE appoinment_id=?"; 
+
+		PreparedStatement pstmnt = con.prepareStatement(updateAppQuery);
+		pstmnt.setDate(1, day);
+		pstmnt.setString(2, time);
+		pstmnt.setInt(3, AppID);
+		
+         pstmnt.execute();
+         con.close();
+			String newAppointments = ReadAppointments();
+			
+			output = "{\"status\":\"success\", \"data\": \"" + newAppointments + "\"}";
+		return "Apointment Updated successfully...";
+		}
+	}
+	catch(SQLException e){
+		output = "{\"status\":\"error\", \"data\":" + "\"Error while updating the Appointment.\"}";
+		return "Error occured during Updating an Appointment\n" + e.getMessage();
+	}
+	
+}
+
 }

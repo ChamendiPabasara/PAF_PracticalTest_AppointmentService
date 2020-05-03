@@ -238,5 +238,65 @@ public String UpdateAppointment(Date day,String time,int AppID) {
 	}
 	
 }
+public String DeleteAppointment(int AppID) {
+	
+	String output = "";
+	
+	try{
+		
+		Connection con  = connect();
+		if (con == null) {
+			
+			return "Error while connecting to the database for inserting.";
+		}
+		
+		//query for get date 
+		String getdateQuery="select date  from appoinment where appoinment_id = ?";
+		PreparedStatement preparedstatement2 = con.prepareStatement(getdateQuery);
+			
+		preparedstatement2.setInt(1,AppID);
+		ResultSet newresultset = preparedstatement2.executeQuery();
+		
+		newresultset.next();
+		
+		  //assign to variable
+		  Date day = newresultset.getDate("date");
+		
+		
+		SimpleDateFormat  simpledateformat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date(System.currentTimeMillis());
+	
+		//check past dates
+		
+		if(day.compareTo(date)<0) {
+			
+			output = "{\"status\":\"error\", \"data\":" + "\"You cannot delete past dates as appointment dates only future dates.\"}";
+			return "You cannot delete past dates as appointment dates only future dates";	
+			
+		
+	}
+		
+		else {
+			
+			 String Deletequery = "delete from appoinment where appoinment_id=?";
+				
+			 PreparedStatement pstmnt = con.prepareStatement(Deletequery);
+			 
+				pstmnt.setInt(1, AppID);
+				pstmnt.execute();
+				
+				con.close();
+				String newAppointments = ReadAppointments();
+				output = "{\"status\":\"success\", \"data\": \"" + newAppointments + "\"}";
+				return "Appoinment Deleted successfully";
+			
+		}
+	}catch(SQLException e){
+		
+		output = "{\"status\":\"error\", \"data\":" + "\"Error while deleting the Appointment.\"}";
+		return "Error occurrd during Deleting\n" + e.getMessage();
+	}
+	
+}
 
 }

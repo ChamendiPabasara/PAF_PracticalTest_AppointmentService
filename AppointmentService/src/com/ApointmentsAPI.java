@@ -82,8 +82,12 @@ public class ApointmentsAPI extends HttpServlet {
 		} 
 
 	
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+	
+		 Map paras = getParasMap(request);
+		 String output = AppObj.DeleteAppointment( Integer.parseInt(paras.get("appoinment_id").toString()));
+		 response.getWriter().write(output);
 	}
 
 	private static Map getParasMap(HttpServletRequest request)

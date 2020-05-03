@@ -14,10 +14,24 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
   <script>
   $( function() {
     $( "#datepicker" ).datepicker({ minDate: -20, maxDate: "+1M +15D" });
   } );
+  
+  $(function() {
+	  $('#timepicker').timepicker({
+		  timeFormat: 'h:mm p',
+	        interval: 30,
+	        minTime: '10',
+	        maxTime: '6:00pm',
+		  
+	  });
+	});
+  
   </script>
  
 </head>
@@ -31,7 +45,7 @@
 					Select a date : <input id="datepicker" name="date" type="text"
 						class="form-control form-control-sm"> 
 						
-						<br> Select a time :<input type="text" id="time"
+						<br> Select a time :<input type="timepicker" id="timepicker"
 						class="form-control form-control-sm"> 
 						
 						

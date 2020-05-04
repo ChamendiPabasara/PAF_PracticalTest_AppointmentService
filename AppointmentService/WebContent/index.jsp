@@ -8,7 +8,7 @@
 <title>Appointments Management</title>
 <link rel="stylesheet" href="Views/bootstrap.min.css">
 <script src="Components/jquery-3.2.1.min.js"></script>
-<script src="Components/items.js"></script>
+<script src="Components/Appointments.js"></script>
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -61,7 +61,7 @@
 					<input id="btnSave" name="btnSave" type="button" value="Save"
 						class="btn btn-primary">
 						
-					 <input type="hidden" id="hidAppIDUpdate" name="hidAppIDUpdate" value="">
+					 <input type="hidden" id="hidAppIDSave" name="hidAppIDSave" value="">
 					 
 				</form>
 				

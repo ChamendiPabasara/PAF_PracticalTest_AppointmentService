@@ -2,6 +2,7 @@ package com;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -10,6 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -35,22 +39,37 @@ public class ApointmentsAPI extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		String dates = request.getParameter("date");
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date day = null;
-		try {
-			day = (Date) dateFormat.parse(dates);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 		
-		 String output = AppObj.addAppointment(day,
-		 request.getParameter("	time"),
-		 Integer.parseInt(request.getParameter("patient_patient_id")),
-		 Integer.parseInt(request.getParameter("doctor_doc_id ")),
-		 Integer.parseInt(request.getParameter("hospital_hosp_id")));
+	    int PID = Integer.parseInt(request.getParameter("patient"));
+	    int DID = Integer.parseInt(request.getParameter("doctor"));
+	    int HID = Integer.parseInt(request.getParameter("hospital"));
+	    String a=request.getParameter("datepicker").toString();
+	    String b=request.getParameter("timepicker").toString();
+	    System.out.println("date is:"+a);
+	    
+	    //SimpleDateFormat availDate = new SimpleDateFormat("dd-MM-yyyy");
+
+
+	    
+	    		
+	    System.out.println(a);
+		
+	    System.out.println(b);
+		
+	    System.out.println(PID);
+		
+	    System.out.println(DID);
+	    
+	    System.out.println(HID);
+	    
+		 String output = AppObj.addAppointment( 
+				 a,
+		         b,
+		         PID,
+		         DID,
+		         HID);
+		 System.out.println(output);
 		 
 		 response.getWriter().write(output);
 		
@@ -62,14 +81,15 @@ public class ApointmentsAPI extends HttpServlet {
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
-		 Map paras = getParasMap(request);
-		 String output=""; 
+		 
 		
-		try {
+	/*	try {
 			output = AppObj.UpdateAppointment(
+					
 			 (Date) dateFormat.parse(paras.get("date").toString()),
 			 paras.get("time").toString(),
 			 Integer.parseInt(paras.get("appoinment_id ").toString()));
+			
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,16 +98,34 @@ public class ApointmentsAPI extends HttpServlet {
 			e.printStackTrace();
 		}
 		 
+		response.getWriter().write(output);*/
+		
+		Map paras = getParasMap(request);
+		
+		String sdate =  paras.get("datepicker").toString().replace("%2F", "-");
+		int a=Integer.parseInt(paras.get("hidAppIDSave").toString());
+		String aw1=paras.get("timepicker").toString().replace("%3A", ":");
+		String aw=aw1.replace("+", " ");
+		 String output = AppObj.UpdateAppointment(a,
+				 sdate,
+				 aw
+		         );
+		 
+		
+		 
 		response.getWriter().write(output);
+		System.out.println(output);
 		} 
+	//} 
 
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 	
 		 Map paras = getParasMap(request);
-		 String output = AppObj.DeleteAppointment( Integer.parseInt(paras.get("appoinment_id").toString()));
+		 String output = AppObj.DeleteAppointment(paras.get("AppID").toString());
 		 response.getWriter().write(output);
+		 System.out.println(output);
 	}
 
 	private static Map getParasMap(HttpServletRequest request)

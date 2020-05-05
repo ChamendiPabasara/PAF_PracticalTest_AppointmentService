@@ -35,10 +35,12 @@ $(document).on("click", "#btnSave", function(event) {
 });
 
 function onAppSaveComplete(response, status) {
+	
+	
 	if (status == "success") {
 		var resultSet = JSON.parse(response);
 
-		if (resultSet.status.trim() == "success") {
+    if (resultSet.status.trim() == "success") {
 			$("#alertSuccess").text("Successfully saved.");
 			$("#alertSuccess").show();
 			$("#divAppGrid").html(resultSet.data);
@@ -52,9 +54,17 @@ function onAppSaveComplete(response, status) {
 		$("#alertError").text("Error while saving.");
 		$("#alertError").show();
 
-	} else {
+		
+	} 
+
+	else {
 		$("#alertError").text("Unknown error while saving..");
 		$("#alertError").show();
+	}
+	 if (status == "Exists Appointment") {
+		$("#alertError").text("The particular time slot has been reserved please choose another a time slot.");
+		$("#alertError").show();
+
 	}
 	$("#hidAppIDSave").val("");
 	$("#formApp")[0].reset();
@@ -67,9 +77,12 @@ $(document).on(
 		function(event) {
 			$("#hidAppIDSave").val(
 					$(this).closest("tr").find('#hidAppIDUpdate').val());
-			$("#date").val($(this).closest("tr").find('td:eq(0)').text());
-			$("#time").val($(this).closest("tr").find('td:eq(1)').text());
-			$("#appoinment_id").val($(this).closest("tr").find('td:eq(2)').text());
+			$("#datepicker").val($(this).closest("tr").find('td:eq(1)').text());
+			$("#timepicker").val($(this).closest("tr").find('td:eq(2)').text());
+			$("#patient").val($(this).closest("tr").find('td:eq(3)').text());
+			$("#doctor").val($(this).closest("tr").find('td:eq(4)').text());
+			$("#hospital").val($(this).closest("tr").find('td:eq(5)').text());
+			
 			
 		});
 
@@ -78,7 +91,7 @@ $(document).on("click", ".btnRemove", function(event) {
 	$.ajax({
 		url : "ApointmentsAPI",
 		type : "DELETE",
-		data : "appoinment_id=" + $(this).data("AppID"),
+		data : "AppID=" + $(this).data("appid"),
 		dataType : "text",
 		complete : function(response, status) {
 			onAppDeleteComplete(response.responseText, status);
@@ -107,42 +120,42 @@ function onAppDeleteComplete(response, status) {
 }
 
 // CLIENTMODEL=========================================================================
-function validateItemForm() {
+function validateAppForm() {
 	// Date
-	if ($("#date").val().trim() == "") {
+	if ($("#datepicker").val().trim() == "") {
 		return "Select a date.";
 	}
 	// Time
-	if ($("#time").val().trim() == "") {
+	if ($("#timepicker").val().trim() == "") {
 		return "Select a time.";
 	}
 
 	// PatientID-------------------------------
-	if ($("#patient_patient_id").val().trim() == "") {
+	if ($("#patient").val().trim() == "") {
 		return "Insert your patientID.";
 	}
 	// is numerical value
-	var pid = $("#patient_patient_id").val().trim();
+	var pid = $("#patient").val().trim();
 	if (!$.isNumeric(pid)) {
 		return "Insert a numerical value for PatientID.";
 	}
 	
 	// doctorID-------------------------------
-	if ($("#doctor_doc_id").val().trim() == "") {
+	if ($("#doctor").val().trim() == "") {
 		return "Insert your DoctorID.";
 	}
 	// is numerical value
-	var did = $("#doctor_doc_id").val().trim();
+	var did = $("#doctor").val().trim();
 	if (!$.isNumeric(did)) {
 		return "Insert a numerical value for doctorID.";
 	}
 	
 	// hospital ID-------------------------------
-	if ($("#hospital_hosp_id").val().trim() == "") {
+	if ($("#hospital").val().trim() == "") {
 		return "Insert your hospitalID.";
 	}
 	// is numerical value
-	var hid = $("#hospital_hosp_id").val().trim();
+	var hid = $("#hospital").val().trim();
 	if (!$.isNumeric(hid)) {
 		return "Insert a numerical value for hospitalID.";
 	}

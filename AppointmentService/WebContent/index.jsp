@@ -42,11 +42,12 @@
 				<h1>Appointments Management</h1>
 				<form id="formApp" name="formApp">
 				
-					Select a date : <input id="datepicker" name="date" type="text"
+					Select a date : <input id="datepicker" name="datepicker" type="text"
 						class="form-control form-control-sm"> 
 						
-						<br> Select a time :<input type="timepicker" id="timepicker"
+						<br> Select a time :<input type="timepicker" id="timepicker" name="timepicker"
 						class="form-control form-control-sm"> 
+						
 						
 						
 						<br> Select your PatientID: <input id="patient" name="patient" type="text"

@@ -46,23 +46,7 @@ public class ApointmentsAPI extends HttpServlet {
 	    int HID = Integer.parseInt(request.getParameter("hospital"));
 	    String a=request.getParameter("datepicker").toString();
 	    String b=request.getParameter("timepicker").toString();
-	    System.out.println("date is:"+a);
-	    
-	    //SimpleDateFormat availDate = new SimpleDateFormat("dd-MM-yyyy");
-
-
-	    
-	    		
-	    System.out.println(a);
-		
-	    System.out.println(b);
-		
-	    System.out.println(PID);
-		
-	    System.out.println(DID);
-	    
-	    System.out.println(HID);
-	    
+	   	    
 		 String output = AppObj.addAppointment( 
 				 a,
 		         b,
@@ -81,24 +65,6 @@ public class ApointmentsAPI extends HttpServlet {
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
-		 
-		
-	/*	try {
-			output = AppObj.UpdateAppointment(
-					
-			 (Date) dateFormat.parse(paras.get("date").toString()),
-			 paras.get("time").toString(),
-			 Integer.parseInt(paras.get("appoinment_id ").toString()));
-			
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		response.getWriter().write(output);*/
 		
 		Map paras = getParasMap(request);
 		
@@ -116,7 +82,7 @@ public class ApointmentsAPI extends HttpServlet {
 		response.getWriter().write(output);
 		System.out.println(output);
 		} 
-	//} 
+	
 
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

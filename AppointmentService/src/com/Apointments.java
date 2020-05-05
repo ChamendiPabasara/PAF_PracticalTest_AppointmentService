@@ -36,7 +36,7 @@ public class Apointments {
 					return "Error while connecting to the database for reading.";
 				}
 			
-				  output = "<table border=\"1\"><tr><th>Appointment ID</th>"+
+				  output = "<table border='1'><tr><th>Appointment ID</th>"+
 					 		"<th>Appointment Date</th> "+
 					 		"<th>Appointment Time</th>"
 					 		+ "<th>Patient ID</th>"
@@ -119,7 +119,7 @@ public String addAppointment(String day, String time, int pid,int did,int hosID)
 			PreparedStatement preparedstatement = con.prepareStatement(checkQuery);
 			
 			java.sql.Date sDate = new java.sql.Date(startDate.getTime());
-			System.out.println("new "+sDate);
+			
 			preparedstatement.setDate(1,sDate);
 			preparedstatement.setString(2,time);
 			preparedstatement.setInt(3,did);
@@ -151,12 +151,12 @@ public String addAppointment(String day, String time, int pid,int did,int hosID)
 				}
 				
 				else {
-					System.out.println("insert");
+					
 			String insertAppQuery = " insert into appoinment values (NULL,?, ?, ?, ?, ?)";
 			PreparedStatement pstmnt = con.prepareStatement(insertAppQuery);
 			
 			java.sql.Date sDate2 = new java.sql.Date(startDate.getTime());
-			System.out.println(sDate2);
+			
 			pstmnt.setDate(1,sDate2);
 			pstmnt.setString(2,time);
 			pstmnt.setInt(3,pid);
@@ -197,7 +197,7 @@ public String UpdateAppointment(int AppID,String day,String time) {
 		try {
 			
 			startDate2 = nformatter.parse(ndate);
-			System.out.println("sdate"+startDate2);
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -290,7 +290,7 @@ public String DeleteAppointment(String AppID) {
 		}
 		
 		//query for get date 
-		System.out.println("AppId= "+AppID);
+		
 		String getdateQuery="select date  from appoinment where appoinment_id = ?";
 		PreparedStatement preparedstatement2 = con.prepareStatement(getdateQuery);
 			

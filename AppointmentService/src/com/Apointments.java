@@ -252,15 +252,19 @@ public String UpdateAppointment(int AppID,String day,String time) {
 		else {
 		
 		
-		String updateAppQuery =  "UPDATE appoinment  SET time=?  WHERE appoinment_id=?"; 
+		String updateAppQuery =  "UPDATE appoinment  SET time=? ,date =?  WHERE appoinment_id=?"; 
 
 		PreparedStatement pstmnt = con.prepareStatement(updateAppQuery);
 		
-		java.sql.Date sDate3 = new java.sql.Date(startDate2.getTime());
-	
-	
+		
+
+		String[] arrOfStr = day.split("-", 5); 
+		String DateArray= arrOfStr[2]+"-"+arrOfStr[0]+"-"+arrOfStr[1];
+		System.out.println("Reconstructed Date "+DateArray);
+		System.out.println("Parameter Date "+day);
 		pstmnt.setString(1, time);
-		pstmnt.setInt(2, AppID);
+		pstmnt.setString(2, DateArray);
+		pstmnt.setInt(3, AppID);
 		
          pstmnt.execute();
          con.close();

@@ -61,11 +61,7 @@ function onAppSaveComplete(response, status) {
 		$("#alertError").text("Unknown error while saving..");
 		$("#alertError").show();
 	}
-	 if (status == "Exists Appointment") {
-		$("#alertError").text("The particular time slot has been reserved please choose another a time slot.");
-		$("#alertError").show();
-
-	}
+	
 	$("#hidAppIDSave").val("");
 	$("#formApp")[0].reset();
 }

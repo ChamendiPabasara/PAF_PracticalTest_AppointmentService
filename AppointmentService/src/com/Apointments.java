@@ -47,9 +47,7 @@ public class Apointments {
 			String readQuery = "select * from appoinment";
 			
 			 PreparedStatement pstmt = con.prepareStatement(readQuery);
-			 
-		
-					 		 
+			 		 		 
 				
 			 ResultSet rs = pstmt.executeQuery(readQuery); 
 			
@@ -71,6 +69,7 @@ public class Apointments {
 				output += "<td>" + pid + "</td>";
 				output += "<td>" + did + "</td>";
 				output += "<td>" + hosID + "</td>";
+				
 				// buttons
 				output += "<td><input name='btnUpdate'" + "type='button' value='Update'"
 						+ "class='btnUpdate btn btn-secondary'></td>" + "<td><input name='btnRemove'"
@@ -81,13 +80,15 @@ public class Apointments {
 			}
 		
 		   output += "</table>";
-			  return output;
+			  
 		}
 		catch(SQLException e){
 			
-			e.printStackTrace();
-			return "Error occured during retrieving data";
+			output = "Error while reading the items.";
+			System.err.println(e.getMessage());
+		
 		}
+		return output;
 	}
 	
 public String addAppointment(String day, String time, int pid,int did,int hosID) {
@@ -134,7 +135,7 @@ public String addAppointment(String day, String time, int pid,int did,int hosID)
 			if(value !=0)
 			{
 				output = "{\"status\":\"error\", \"data\":" + " \"The particular time slot has been reserved please choose another a time slot\"}";
-				return "The particular time slot has been reserved please choose another a time slot.";
+				
 				
 			}
 			else {
@@ -146,7 +147,7 @@ public String addAppointment(String day, String time, int pid,int did,int hosID)
 				if(startDate.compareTo(date)<0) {
 					
 				output = "{\"status\":\"error\", \"data\":" + " \"You cannot request past dates as appointment dates please select a future date.\"}";
-				return "You cannot request past dates as appointment dates please select a future date";
+				
 				}
 				
 				else {
@@ -165,19 +166,18 @@ public String addAppointment(String day, String time, int pid,int did,int hosID)
 
 			pstmnt.execute();
 			con.close();
-
+		
 			String newAppointments = ReadAppointments();
 			output = "{\"status\":\"success\", \"data\": \"" + newAppointments + "\"}";
-			return "Appointment added successfully...";
 			
 				}
 			}
 		}
 		catch(SQLException e){
 			output = "{\"status\":\"error\", \"data\":" + " \"Error while inserting the Appointment.\"}";
-			return "Error occured during adding an Appoinment\n" + e.toString();
+			
 		}
-		
+		return output;
 	}
 
 public String UpdateAppointment(int AppID,String day,String time) {
@@ -245,7 +245,7 @@ public String UpdateAppointment(int AppID,String day,String time) {
 		if(value !=0)
 		{
 			output = "{\"status\":\"error\", \"data\":" + "\"The particular time slot has been reserved please choose another a time slot.\"}";
-			return "The particular time slot has been reserved please choose another a time slot.";
+			
 			
 		}
 		
@@ -267,13 +267,14 @@ public String UpdateAppointment(int AppID,String day,String time) {
 			String newAppointments = ReadAppointments();
 			
 			output = "{\"status\":\"success\", \"data\": \"" + newAppointments + "\"}";
-		return "Apointment Updated successfully...";
+		
 		}
 	}
 	catch(SQLException e){
 		output = "{\"status\":\"error\", \"data\":" + "\"Error while updating the Appointment.\"}";
-		return "Error occured during Updating an Appointment\n" + e;
+		
 	}
+	return output;
 	
 }
 public String DeleteAppointment(String AppID) {
@@ -310,7 +311,6 @@ public String DeleteAppointment(String AppID) {
 		if(day.compareTo(date)<0) {
 			
 			output = "{\"status\":\"error\", \"data\":" + "\"You cannot delete past dates as appointment dates only future dates.\"}";
-			return "You cannot delete past dates as appointment dates only future dates";	
 			
 		
 	}
@@ -327,15 +327,15 @@ public String DeleteAppointment(String AppID) {
 				con.close();
 				String newAppointments = ReadAppointments();
 				output = "{\"status\":\"success\", \"data\": \"" + newAppointments + "\"}";
-				return "Appoinment Deleted successfully";
+				
 			
 	}
 	}catch(SQLException e){
 		
 		output = "{\"status\":\"error\", \"data\":" + "\"Error while deleting the Appointment.\"}";
-		return "Error occurrd during Deleting\n" + e.getMessage();
+		System.err.println(e.getMessage());
 	}
-	
+	return output;
 }
 
 }

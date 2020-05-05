@@ -191,12 +191,12 @@ public String UpdateAppointment(int AppID,String day,String time) {
 			return "Error while connecting to the database for inserting.";
 		}
 		
-		SimpleDateFormat nformatter = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy/MM/dd");
 		java.util.Date startDate2=null;
 		String ndate=day.replaceAll("-", "/");
 		try {
 			
-			startDate2 = nformatter.parse(ndate);
+			startDate2 = formatter1.parse(ndate);
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -227,9 +227,9 @@ public String UpdateAppointment(int AppID,String day,String time) {
 		String checkQuery="select count(appoinment_id)  from appoinment where date = ? and time = ? and doctor_doc_id = ? and hospital_hosp_id = ?";
 		PreparedStatement prstmnt = con.prepareStatement(checkQuery);
 		
-		java.sql.Date sDate2 = new java.sql.Date(startDate2.getTime());
+		java.sql.Date date1 = new java.sql.Date(startDate2.getTime());
 		
-		prstmnt.setDate(1,sDate2);
+		prstmnt.setDate(1,date1);
 		prstmnt.setString(2,time);
 		prstmnt.setInt(3,docid);
 		prstmnt.setInt(4,hosID);

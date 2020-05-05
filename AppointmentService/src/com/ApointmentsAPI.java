@@ -44,12 +44,12 @@ public class ApointmentsAPI extends HttpServlet {
 	    int PID = Integer.parseInt(request.getParameter("patient"));
 	    int DID = Integer.parseInt(request.getParameter("doctor"));
 	    int HID = Integer.parseInt(request.getParameter("hospital"));
-	    String a=request.getParameter("datepicker").toString();
-	    String b=request.getParameter("timepicker").toString();
+	    String stringdate=request.getParameter("datepicker").toString();
+	    String stringtime=request.getParameter("timepicker").toString();
 	   	    
 		 String output = AppObj.addAppointment( 
-				 a,
-		         b,
+				 stringdate,
+				 stringtime,
 		         PID,
 		         DID,
 		         HID);
@@ -69,12 +69,12 @@ public class ApointmentsAPI extends HttpServlet {
 		Map paras = getParasMap(request);
 		
 		String sdate =  paras.get("datepicker").toString().replace("%2F", "-");
-		int a=Integer.parseInt(paras.get("hidAppIDSave").toString());
-		String aw1=paras.get("timepicker").toString().replace("%3A", ":");
-		String aw=aw1.replace("+", " ");
-		 String output = AppObj.UpdateAppointment(a,
+		int buttonID=Integer.parseInt(paras.get("hidAppIDSave").toString());
+		String stringtime1=paras.get("timepicker").toString().replace("%3A", ":");
+		String stringtime2=stringtime1.replace("+", " ");
+		 String output = AppObj.UpdateAppointment(buttonID,
 				 sdate,
-				 aw
+				 stringtime2
 		         );
 		 
 		

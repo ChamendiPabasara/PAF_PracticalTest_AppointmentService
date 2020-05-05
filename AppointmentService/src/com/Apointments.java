@@ -260,6 +260,8 @@ public String UpdateAppointment(int AppID,String day,String time) {
 
 		String[] arrOfStr = day.split("-", 5); 
 		String DateArray= arrOfStr[2]+"-"+arrOfStr[0]+"-"+arrOfStr[1];
+		
+		
 		System.out.println("Reconstructed Date "+DateArray);
 		System.out.println("Parameter Date "+day);
 		pstmnt.setString(1, time);

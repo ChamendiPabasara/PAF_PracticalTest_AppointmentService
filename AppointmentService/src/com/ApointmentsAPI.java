@@ -68,12 +68,12 @@ public class ApointmentsAPI extends HttpServlet {
 		
 		Map paras = getParasMap(request);
 		
-		String sdate =  paras.get("datepicker").toString().replace("%2F", "-");
+		String CalenderDate =  paras.get("datepicker").toString().replace("%2F", "-");
 		int buttonID=Integer.parseInt(paras.get("hidAppIDSave").toString());
 		String stringtime1=paras.get("timepicker").toString().replace("%3A", ":");
 		String stringtime2=stringtime1.replace("+", " ");
 		 String output = AppObj.UpdateAppointment(buttonID,
-				 sdate,
+				 CalenderDate,
 				 stringtime2
 		         );
 		 
